@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vox_test_project/src/data/model/example.dart';
+import 'package:vox_test_project/src/presentation/pages/article_screen/view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,8 +21,22 @@ class _HomeScreenState extends State<HomeScreen> {
           separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {
             return InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => ArticleScreen(
+                      title: Example.example[index]['title'].toString(),
+                      description: Example.example[index]['body'].toString(),
+                    ),
+                  ),
+                );
+              },
               child: ListTile(
-                title: Text(Example.example[index]['title'].toString()),
+                title: Text(
+                  Example.example[index]['title'].toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 subtitle: Text(Example.example[index]['body']
                             .toString()
                             .length >

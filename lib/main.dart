@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vox_test_project/src/presentation/home_screen/view.dart';
+import 'package:vox_test_project/src/presentation/pages/home_screen/view.dart';
 
 void main() {
   runApp(const MyApp());

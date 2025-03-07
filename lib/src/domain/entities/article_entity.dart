@@ -1,5 +1,5 @@
-final class Article {
-  const Article({
+class ArticleEntity {
+  const ArticleEntity({
     required this.id,
     required this.title,
     required this.body,
