@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vox_test_project/src/data/model/example.dart';
-import 'package:vox_test_project/src/presentation/pages/article_screen/view.dart';
+import 'package:provider/provider.dart';
+import '../article_screen/view.dart';
+import '../../provider/article_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,41 +12,52 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    Provider.of<ArticleProvider>(context, listen: false).getArticle();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('News'),
       ),
-      body: ListView.separated(
-          itemCount: Example.example.length,
-          separatorBuilder: (context, index) => const Divider(),
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => ArticleScreen(
-                      title: Example.example[index]['title'].toString(),
-                      description: Example.example[index]['body'].toString(),
+      body: Consumer<ArticleProvider>(
+        builder: (context, value, child) {
+          if (value.listOfArticles.isEmpty) {
+            return Center(child: CircularProgressIndicator());
+          }
+          return ListView.separated(
+            itemCount: value.listOfArticles.length,
+            separatorBuilder: (context, index) => const Divider(),
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ArticleScreen(
+                        title: value.listOfArticles[index].title,
+                        description: value.listOfArticles[index].body,
+                      ),
                     ),
+                  );
+                },
+                child: ListTile(
+                  title: Text(
+                    value.listOfArticles[index].title,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                );
-              },
-              child: ListTile(
-                title: Text(
-                  Example.example[index]['title'].toString(),
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  subtitle: Text(value.listOfArticles[index].body.length > 100
+                      ? '${value.listOfArticles[index].body.substring(0, 100)}...'
+                      : value.listOfArticles[index].body),
                 ),
-                subtitle: Text(Example.example[index]['body']
-                            .toString()
-                            .length >
-                        100
-                    ? '${Example.example[index]['body'].toString().substring(0, 100)}...'
-                    : Example.example[index]['body'].toString()),
-              ),
-            );
-          }),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

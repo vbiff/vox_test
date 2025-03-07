@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:vox_test_project/src/presentation/pages/home_screen/view.dart';
+import 'package:provider/provider.dart';
+import 'src/data/datasources/article_remote_data_source.dart';
+import 'src/data/repository/article_repository_impl.dart';
+import 'src/domain/usecases/get_article.dart';
+import 'src/presentation/pages/home_screen/view.dart';
+import 'src/presentation/provider/article_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  // Create the repository implementation
+  final articleRepository = ArticleRepositoryImpl(
+    articleRemoteDataSource: ArticleRemoteDataSource(),
+  );
+
+  runApp(ChangeNotifierProvider(
+    create: (context) => ArticleProvider(
+      getArticleUseCase: GetArticle(
+        articleRepository: articleRepository, // Use the created repository
+      ),
+    ),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

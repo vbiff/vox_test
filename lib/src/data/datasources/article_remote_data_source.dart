@@ -14,8 +14,7 @@ final class ArticleRemoteDataSource implements ArticleRepository {
     );
 
     if (response.statusCode == 200) {
-      List<dynamic> jsonList =
-          jsonDecode(response.body) as List<Map<String, dynamic>>;
+      List<dynamic> jsonList = jsonDecode(response.body) as List<dynamic>;
       return jsonList.map((json) => ArticleModel.fromJson(json: json)).toList();
     } else {
       throw Exception('failed to get articles');

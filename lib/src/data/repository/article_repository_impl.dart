@@ -1,7 +1,6 @@
-import 'package:vox_test_project/src/data/datasources/article_remote_data_source.dart';
-
 import '../../domain/entities/article_entity.dart';
 import '../../domain/repository/article_repository.dart';
+import '../datasources/article_remote_data_source.dart';
 
 final class ArticleRepositoryImpl implements ArticleRepository {
   ArticleRepositoryImpl({required this.articleRemoteDataSource});
