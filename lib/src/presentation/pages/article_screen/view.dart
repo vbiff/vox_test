@@ -14,12 +14,19 @@ class ArticleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: FittedBox(
+        title: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
           child: Text(
             title,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.share),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

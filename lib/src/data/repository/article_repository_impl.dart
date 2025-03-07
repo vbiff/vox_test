@@ -14,8 +14,8 @@ final class ArticleRepositoryImpl implements ArticleRepository {
           await articleRemoteDataSource.getArticles();
       return listOfArticles;
     } catch (e) {
-      print(e);
-      return [];
+      throw Exception(
+          'Failed to load articles. Please check your internet connection.');
     }
   }
 }
